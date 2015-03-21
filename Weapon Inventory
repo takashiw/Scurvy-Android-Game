@@ -1,0 +1,23 @@
+package com.example.shanemcdonald.hackfsu1;
+
+import java.util.ArrayList;
+/**
+ * Created by Shane McDonald on 3/21/2015.
+ */
+public class WeaponInventory {
+
+    private ArrayList<Weapons> Inventory = new ArrayList<Weapons>();
+
+    public Weapons createWeapon() {
+        Weapons x = new Weapons();
+        return x;
+    }
+
+    public void addWeapon() {
+        Inventory.add(createWeapon());
+    }
+
+    public void Equip(Weapons w) {
+        w.ToggleEquipped();
+    }
+}
