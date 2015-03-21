@@ -11,6 +11,7 @@ class Pufferfish {
 	private int xSpeed;
 	private boolean dead;
 	private int yDeath;
+	private boolean boss;
 	
 	Pufferfish(){
 		damageInflicting = 1;
@@ -21,6 +22,7 @@ class Pufferfish {
 		range = 20;
 		xSpeed = 5;
 		dead = false;
+		boss = false;
 	}
 	
 	/*
@@ -83,6 +85,13 @@ class Pufferfish {
 		return x.nextInt(10) + worth;
 	}
 	
+	public void setBoss(boolean input) {
+		boss = input;
+	}
+	
+	public boolean getBoss() {
+		return boss;
+	}
 	
 	
 	
