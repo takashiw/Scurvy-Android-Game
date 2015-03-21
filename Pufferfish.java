@@ -16,9 +16,9 @@ class Pufferfish {
 		damageInflicting = 1;
 		health = 10;
 		worth = 46;
-		x = 1280;
-		y = 780;
-		range = 0;
+		x = 1330;
+		y = 200;
+		range = 20;
 		xSpeed = 5;
 		dead = false;
 	}
@@ -59,7 +59,7 @@ class Pufferfish {
 	
 	
 	public int inflictDamage(){
-		if(x < 12)	return damageInflicting;
+		if(x < range)	return damageInflicting;
 		return 0;
 	}
 	
