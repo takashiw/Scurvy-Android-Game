@@ -16,6 +16,8 @@ public class Bullet {
 
     private int x_coordinate;
     private int y_coordinate;
+    private int rise;
+    private int run;
     private Bitmap bullet;
     private int bullet_speed;
 }
