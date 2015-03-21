@@ -1,7 +1,7 @@
 import java.util.Random;
 
 
-class SeaHorse {
+class Narwhal {
 	private int damageInflicting;
 	private int health;
 	private int worth;
@@ -11,8 +11,9 @@ class SeaHorse {
 	private int xSpeed;
 	private boolean dead;
 	private int yDeath;
+	private boolean boss;
 	
-	SeaHorse(){
+	Narwhal(){
 		damageInflicting = 4;
 		health = 100;
 		worth = 46;
@@ -21,6 +22,7 @@ class SeaHorse {
 		range = 20;
 		xSpeed = 5;
 		dead = false;
+		boss = true;
 	}
 	
 	/*
@@ -84,10 +86,13 @@ class SeaHorse {
 		return x.nextInt(10) + worth;
 	}
 	
+	public void setBoss(boolean input) {
+		boss = input;
+	}
 	
-	
-	
-	
+	public boolean getBoss() {
+		return boss;
+	}
 	
 	
 
