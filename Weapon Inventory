@@ -6,15 +6,27 @@ import java.util.ArrayList;
  */
 public class WeaponInventory {
 
-    private ArrayList<Weapons> Inventory = new ArrayList<Weapons>();
+    private ArrayList<Weapons> Inventory;
 
-    public Weapons createWeapon() {
-        Weapons x = new Weapons();
+    WeaponInventory(){
+        Inventory = new ArrayList<Weapons>();
+    }
+
+    public Weapons createWeapon(char t, boolean e, boolean o) {
+        Weapons x = new Weapons(t, e, o);
         return x;
     }
 
-    public void addWeapon() {
-        Inventory.add(createWeapon());
+    public void addWeapon(char t, boolean e, boolean o) {
+        Inventory.add(createWeapon(t, e, o));
+    }
+
+    public Weapons getIndex(int slot) {
+        return Inventory.get(slot);
+    }
+
+    public void Own(Weapons w) {
+        w.ToggleOwned();
     }
 
     public void Equip(Weapons w) {
