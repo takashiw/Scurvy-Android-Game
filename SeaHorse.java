@@ -11,6 +11,7 @@ class SeaHorse {
 	private int xSpeed;
 	private boolean dead;
 	private int yDeath;
+	private boolean boss;
 	
 	SeaHorse(){
 		damageInflicting = 1;
@@ -21,6 +22,7 @@ class SeaHorse {
 		range = 20;
 		xSpeed = 5;
 		dead = false;
+		boss = false;
 	}
 	
 	/*
@@ -83,13 +85,14 @@ class SeaHorse {
 		return x.nextInt(10) + worth;
 	}
 	
+	public void setBoss(boolean input) {
+		boss = input;
+	}
 	
+	public boolean getBoss() {
+		return boss;
+	}
 	
-	
-	
-	
-	
-
 }
 
 
