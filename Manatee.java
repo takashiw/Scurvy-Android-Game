@@ -10,8 +10,9 @@ class Manatee {
 	private int xSpeed;
 	private boolean dead;
 	private int yDeath;
+	private boolean boss;
 	
-	SeaHorse(){
+	Manatee(){
 		damageInflicting = 2;
 		health = 30;
 		worth = 60;
@@ -20,6 +21,7 @@ class Manatee {
 		range = 20;
 		xSpeed = 2;
 		dead = false;
+		boss = false;
 	}
 	
 	/*
@@ -82,11 +84,13 @@ class Manatee {
 		return x.nextInt(10) + worth;
 	}
 	
+	public void setBoss(boolean input) {
+		boss = input;
+	}
 	
-	
-	
-	
-	
+	public boolean getBoss() {
+		return boss;
+	}
 	
 
 }
