@@ -3,7 +3,8 @@ package com.example.dspritzman.myapplication;
 
 import java.util.Random;
 
-class Manatee {
+
+class Narwhal {
     private int damageInflicting;
     private int health;
     private int worth;
@@ -16,21 +17,20 @@ class Manatee {
     private boolean boss;
     private int radius;
 
-
-    Manatee(){
-        damageInflicting = 80;
-        health = 350;
-        worth = 75;
+    Narwhal(){
+        damageInflicting = 175;
+        health = 6000;
+        worth = 325;
         x = 150;
         y = 1325;
         range = 30;
         xSpeed = 1;
         dead = false;
-        boss = false;
-        radius = 65;
+        boss = true;
+        radius = 300;
         yDeath = 1;
     }
-	
+
 	/*
 	Enemy(int damageInflicting, int health, String name, int worth, int x, int y, int range, int xSpeed){
 		this.damageInflicting = damageInflicting;
@@ -63,15 +63,17 @@ class Manatee {
 
     public void move(){
         if(!dead) y -= xSpeed;
-        else x -= yDeath;
+        else if(dead)
+            x -= yDeath;
     }
 
     public void setX(int x){
         this.x = x;
     }
+
     public void attack()
     {
-        y += 110;
+        y += 100;
     }
 
 
@@ -122,5 +124,6 @@ class Manatee {
     public int getxSpeed() {
         return xSpeed;
     }
+
 
 }
