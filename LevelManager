@@ -1,0 +1,351 @@
+package com.example.dspritzman.myapplication;
+
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
+import java.util.Random;
+
+/**
+ * Created by Dspritzman on 3/21/2015.
+ */
+public class LevelManager {
+
+
+    int pufferFish;
+    int manatees;
+    int seaHorses;
+    int flyingFish;
+    int narwhal;
+
+
+    ArrayList<Pufferfish> pufferArray = new ArrayList<Pufferfish>();
+    ArrayList<Manatee> manateesArray = new ArrayList<Manatee>();
+    ArrayList<SeaHorse> seaHorsesArray = new ArrayList<SeaHorse>();
+    ArrayList<FlyingFish> flyingFishArray = new ArrayList<FlyingFish>();
+    ArrayList<Narwhal> narwhalArray = new ArrayList<Narwhal>();
+
+    int totalEnemies;
+
+    public LevelManager()
+    {
+        pufferFish = 20;
+        manatees = 10;
+        seaHorses = 15;
+        flyingFish = 10;
+        //add boss boolean to enemies
+        narwhal = 1;
+
+        calculateTotalEnemies();
+
+
+    }
+
+
+    public void tick()
+    {
+        Random temp = new Random();
+
+        if (temp.nextInt(100) <= 3)
+        {
+            addEnemies();
+        }
+        moveEnemies();
+        doDamage();
+    }
+
+    private void calculateTotalEnemies()
+    {
+        totalEnemies = pufferFish + manatees + seaHorses + flyingFish;
+    }
+
+    public int getPuffSize()
+    {
+        return pufferArray.size();
+    }
+
+    public int getNarwhalize()
+    {
+        return narwhalArray.size();
+    }
+
+    public int getManSize()
+    {
+        return manateesArray.size();
+    }
+
+    public int getFlyingSize()
+    {
+        return flyingFishArray.size();
+    }
+    public int getSeaSize()
+    {
+        return seaHorsesArray.size();
+    }
+
+
+    public Pufferfish puffIterator(int i)
+    {
+        return pufferArray.get(i);
+    }
+
+    public Narwhal narIterator(int i)
+    {
+        return narwhalArray.get(i);
+    }
+
+    public Manatee manIterator(int i)
+    {
+        return manateesArray.get(i);
+    }
+
+    public FlyingFish flyIterator(int i)
+    {
+        return flyingFishArray.get(i);
+    }
+
+    public SeaHorse seaIterator(int i)
+    {
+        return seaHorsesArray.get(i);
+    }
+
+    public void doDamage()
+    {
+        int totaldmg = 0;
+
+        int x = 0;
+        int y = 0;
+
+        Pufferfish  tempPuff = new Pufferfish();
+
+        for (int i = 0; i < pufferArray.size();++i) {
+             tempPuff = pufferArray.get(i);
+            x = tempPuff.getX();
+            y = tempPuff.getY();
+            if (tempPuff.getRange() + 243 >= y)
+            {
+                tempPuff.attack();
+                totaldmg += tempPuff.inflictDamage();
+            }
+        }
+
+
+
+        Manatee tempMan = new Manatee();
+        for (int i = 0; i < manateesArray.size();++i) {
+            tempMan = manateesArray.get(i);
+            x = tempMan.getX();
+            y = tempMan.getY();
+            if (tempMan.getRange() + 243 >= y)
+            {
+                tempMan.attack();
+                totaldmg += tempMan.inflictDamage();
+            }
+        }
+
+
+        SeaHorse tempSea = new SeaHorse();
+
+        for (int i = 0; i < seaHorsesArray.size();++i) {
+            tempSea = seaHorsesArray.get(i);
+            x = tempSea.getX();
+            y = tempSea.getY();
+            if (tempSea.getRange() >= x)
+            {
+                totaldmg += tempSea.inflictDamage();
+            }
+        }
+
+
+
+        FlyingFish tempFish = new FlyingFish();
+
+        for (int i = 0; i < flyingFishArray.size();++i) {
+            tempFish = flyingFishArray.get(i);
+            x = tempFish.getX();
+            y = tempFish.getY();
+            if (tempFish.getRange() >= x)
+            {
+                totaldmg += tempFish.inflictDamage();
+            }
+        }
+
+
+
+        Narwhal tempNar = new Narwhal();
+
+        for (int i = 0; i < narwhalArray.size();++i) {
+            tempNar = narwhalArray.get(i);
+            x = tempNar.getX();
+            y = tempNar.getY();
+            if (tempNar.getRange() >= x)
+            {
+                tempNar.attack();
+                totaldmg += tempNar.inflictDamage();
+            }
+        }
+
+
+
+    }
+
+    public void removeEnemies()
+    {
+        Pufferfish  tempPuff = new Pufferfish();
+
+        for (int i = 0; i < pufferArray.size();++i) {
+            tempPuff = pufferArray.get(i);
+            if (tempPuff.getX() < 0)
+            {
+                pufferArray.remove(i);
+            }
+        }
+
+
+
+        Manatee tempMan = new Manatee();
+        for (int i = 0; i < manateesArray.size();++i) {
+            tempMan = manateesArray.get(i);
+            if (tempMan.getX() < 0)
+            {
+                manateesArray.remove(i);
+            }
+        }
+
+
+
+        SeaHorse tempSea = new SeaHorse();
+
+        for (int i = 0; i < seaHorsesArray.size();++i) {
+            tempSea = seaHorsesArray.get(i);
+            if (tempSea.getY() < 225)
+            {
+                seaHorsesArray.remove(i);
+            }
+        }
+
+
+
+        FlyingFish tempFish = new FlyingFish();
+
+        for (int i = 0; i < flyingFishArray.size(); ++i) {
+            tempFish = flyingFishArray.get(i);
+            if (tempFish.getY() < 225)
+            {
+                flyingFishArray.remove(i);
+            }
+        }
+
+
+
+        Narwhal tempNar = new Narwhal();
+
+        for (int i = 0; i < narwhalArray.size();++i) {
+            tempNar = narwhalArray.get(i);
+            if (tempNar.getX() < 0)
+            {
+                narwhalArray.remove(i);
+            }
+        }
+
+    }
+
+
+    public void moveEnemies() {
+        Pufferfish tempPuff = new Pufferfish();
+
+        for (int i = 0; i < pufferArray.size(); ++i) {
+            tempPuff = pufferArray.get(i);
+            if (tempPuff.getRange() + 243 < tempPuff.getY()) {
+                tempPuff.move();
+            }
+        }
+
+
+        Manatee tempMan = new Manatee();
+        for (int i = 0; i < manateesArray.size(); ++i) {
+            tempMan = manateesArray.get(i);
+            if (tempMan.getRange() + 243 < tempMan.getY()) {
+                tempMan.move();
+            }
+        }
+
+
+        SeaHorse tempSea = new SeaHorse();
+
+        for (int i = 0; i < seaHorsesArray.size(); ++i) {
+            tempSea = seaHorsesArray.get(i);
+            if (tempSea.getRange() + 243 < tempSea.getY()) {
+                tempSea.move();
+            }
+        }
+
+
+        FlyingFish tempFish = new FlyingFish();
+
+        for (int i = 0; i < flyingFishArray.size(); ++i) {
+            tempFish = flyingFishArray.get(i);
+            if (tempFish.getRange() + 243 < tempFish.getY()) {
+                tempFish.move();
+            }
+        }
+
+
+        Narwhal tempNar = new Narwhal();
+
+        for (int i = 0; i < narwhalArray.size(); ++i) {
+            tempNar = narwhalArray.get(i);
+            if (tempNar.getRange() + 243 < tempNar.getY()) {
+                tempNar.move();
+            }
+        }
+    }
+
+    public void addEnemies()
+    {
+        if (totalEnemies != 0)
+        {
+            int temp = -1;
+            int temp2 = -1;
+
+            //Log.e("test1", "start");
+
+                Random randEnemy = new Random();
+
+
+                temp = randEnemy.nextInt(3);
+
+                if (temp == 0 && pufferFish != 0) {
+                    pufferArray.add(new Pufferfish());
+                    //Log.e("test2", "sloop");
+                    --pufferFish;
+                    temp2 = 0;
+                } else if (temp == 1 && manatees != 0) {
+                    manateesArray.add(new Manatee());
+                    --manatees;
+                    temp2 = 0;
+                } else if (temp == 2 && seaHorses != 0) {
+                    seaHorsesArray.add(new SeaHorse());
+                    --seaHorses;
+                    temp2 = 0;
+                } else if (temp == 3 && flyingFish != 0) {
+                    flyingFishArray.add(new FlyingFish());
+                    --flyingFish;
+                    temp2 = 0;
+                } else {
+
+                }
+
+
+        }
+        if (totalEnemies == 15)
+        {
+            narwhalArray.add(new Narwhal());
+            --narwhal;
+        }
+    }
+
+
+
+
+}
