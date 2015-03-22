@@ -1,0 +1,86 @@
+package com.example.dspritzman.myapplication;
+
+/**
+ * Created by Dspritzman on 3/21/2015.
+ */
+public class BulletPhysics {
+
+    private int xOrigin;
+    private int yOrigin;
+    private int xDest;
+    private int yDest;
+
+    private int rise;
+    private int run;
+
+    private int finalRise;
+    private int finalRun;
+
+    private static int resolution = 10;
+
+
+    public BulletPhysics(int x, int y, int x2, int y2)
+    {
+        xOrigin = x;
+        yOrigin = y;
+
+        xDest = x2;
+        yDest = y2;
+
+        convertFraction();
+    }
+
+    private int calculateRise( )
+    {
+        return yOrigin - yDest;
+    }
+
+    private int calculateRun( )
+    {
+        return xOrigin - xDest;
+    }
+
+
+    private void convertFraction()
+    {
+
+        double x = calculateRun();
+        double y = calculateRise();
+        double z = 0;
+
+        if (x < y) {
+            z = y / resolution;
+            y = resolution;
+            x = x / z;
+        }
+        else
+        {
+            z = x / resolution;
+            x = resolution;
+            y = y / z;
+        }
+
+        if (xDest < xOrigin) {
+            finalRun = (int) -x;
+            finalRise = (int) -y;
+        }
+        if (xDest >= xOrigin) {
+            finalRun = (int) x;
+            finalRise = (int) y;
+        }
+
+
+    }
+
+    public int getRise()
+    {
+        return finalRise;
+    }
+
+    public int getRun()
+    {
+        return finalRun;
+    }
+
+
+}
