@@ -7,17 +7,36 @@ import android.graphics.Bitmap;
  */
 public class Bullet {
 
+    Bullet(int xorig, int yorig, int temprise, int temprun) {
+        x = xorig;
+        y = yorig;
+        rise = temprise;
+        run = temprun;
+    }
+
     public int getBullet_speed() {
         return bullet_speed;
     }
 
-    public int getX_coordinate() { return x_coordinate; }
-    public int getY_coordinate() { return y_coordinate; }
+    public void setX(int temp) { x = temp; }
+    public void setY(int temp) { y = temp; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getXdestination() { return xdestination; }
+    public int getYdestination() { return ydestination; }
+    public int getRise() { return rise; }
+    public int getRun() { return run; }
 
-    private int x_coordinate;
-    private int y_coordinate;
+
+
+    private int x;
+    private int y;
+    private int xdestination;
+    private int ydestination;
     private int rise;
     private int run;
     private Bitmap bullet;
     private int bullet_speed;
 }
+
+
