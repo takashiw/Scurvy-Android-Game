@@ -93,7 +93,13 @@ class Pufferfish {
 		return boss;
 	}
 	
+	public int getX() {
+		return x;
+	}
 	
+	public int getY() {
+		return y;
+	}
 	
 	
 	
