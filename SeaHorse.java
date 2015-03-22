@@ -101,6 +101,14 @@ class SeaHorse {
 		return y;
 	}
 	
+	public int getRange() {
+		return range;
+	}
+	
+	public int getxSpeed() {
+		return xSpeed;
+	}
+
 }
 
 
