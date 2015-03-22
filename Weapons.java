@@ -1,4 +1,4 @@
-package com.example.shanemcdonald.hackfsu1;
+package com.example.dspritzman.myapplication;
 
 import android.graphics.Bitmap;
 
