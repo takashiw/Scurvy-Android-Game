@@ -12,11 +12,13 @@ import java.util.Random;
 public class LevelManager {
 
 
+    Narwhal nar = new Narwhal();
     int pufferFish;
     int manatees;
     int seaHorses;
     int flyingFish;
     int narwhal;
+    int score;
 
 
     ArrayList<Pufferfish> pufferArray = new ArrayList<Pufferfish>();
@@ -29,6 +31,7 @@ public class LevelManager {
 
     public LevelManager()
     {
+        score = 0;
         pufferFish = 20;
         manatees = 10;
         seaHorses = 15;
@@ -104,9 +107,9 @@ public class LevelManager {
         return flyingFishArray.get(i);
     }
 
-    public SeaHorse seaIterator(int i)
+    //public SeaHorse seaIterator(int i)
     {
-        return seaHorsesArray.get(i);
+        //return seaHorsesArray.get(i);
     }
 
     public void doDamage()
@@ -189,6 +192,11 @@ public class LevelManager {
 
     }
 
+    public int getScore()
+    {
+        return score;
+    }
+
     public void removeEnemies()
     {
         Pufferfish  tempPuff = new Pufferfish();
@@ -197,6 +205,7 @@ public class LevelManager {
             tempPuff = pufferArray.get(i);
             if (tempPuff.getX() < 0)
             {
+                score += tempPuff.getWorth();
                 pufferArray.remove(i);
             }
         }
@@ -208,6 +217,7 @@ public class LevelManager {
             tempMan = manateesArray.get(i);
             if (tempMan.getX() < 0)
             {
+                score += tempMan.getWorth();
                 manateesArray.remove(i);
             }
         }
@@ -220,6 +230,7 @@ public class LevelManager {
             tempSea = seaHorsesArray.get(i);
             if (tempSea.getY() < 225)
             {
+                score += tempPuff.getWorth();
                 seaHorsesArray.remove(i);
             }
         }
@@ -230,8 +241,9 @@ public class LevelManager {
 
         for (int i = 0; i < flyingFishArray.size(); ++i) {
             tempFish = flyingFishArray.get(i);
-            if (tempFish.getY() < 225)
+            if (tempFish.getY() < 0)
             {
+                score += tempFish.getWorth();
                 flyingFishArray.remove(i);
             }
         }
@@ -285,9 +297,9 @@ public class LevelManager {
 
         for (int i = 0; i < flyingFishArray.size(); ++i) {
             tempFish = flyingFishArray.get(i);
-            if (tempFish.getRange() + 243 < tempFish.getY()) {
+
                 tempFish.move();
-            }
+
         }
 
 
@@ -313,7 +325,7 @@ public class LevelManager {
                 Random randEnemy = new Random();
 
 
-                temp = randEnemy.nextInt(3);
+                temp = randEnemy.nextInt(8);
 
                 if (temp == 0 && pufferFish != 0) {
                     pufferArray.add(new Pufferfish());
@@ -336,11 +348,14 @@ public class LevelManager {
 
                 }
 
+            calculateTotalEnemies();
 
         }
         if (totalEnemies == 15)
         {
-            narwhalArray.add(new Narwhal());
+            if (narwhalArray.size() == 0) {
+                narwhalArray.add(nar);
+            }
             --narwhal;
         }
     }
