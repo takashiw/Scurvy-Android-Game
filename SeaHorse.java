@@ -1,123 +1,35 @@
 package com.example.dspritzman.myapplication;
 
-import java.util.Random;
+import java.util.ArrayList;
+/**
+ * Created by Shane McDonald on 3/21/2015.
+ */
+public class WeaponInventory {
 
-import java.util.Random;
+    private ArrayList<Weapons> Inventory;
 
-
-class SeaHorse {
-    private int damageInflicting;
-    private int health;
-    private int worth;
-    private int x;
-    private int y;
-    private int range;
-    private int xSpeed;
-    private boolean dead;
-    private int yDeath;
-    private boolean boss;
-    private int radius;
-
-    SeaHorse(){
-        damageInflicting = 30;
-        health = 175;
-        worth = 46;
-        x = 200;
-        y = 1400;
-        range = 75;
-        xSpeed = 3;
-        dead = false;
-        boss = false;
-        radius = 50;
+    WeaponInventory(){
+        Inventory = new ArrayList<Weapons>();
     }
 
-	/*
-	Enemy(int damageInflicting, int health, String name, int worth, int x, int y, int range, int xSpeed){
-		this.damageInflicting = damageInflicting;
-		this.health = health;
-		this.name = name;
-		this.worth = worth;
-		this.x = x;
-		this.y = y;
-		this.range = range;
-	}
-	*/
-    //
-
-    public int getRadius()
-    {
-        return radius;
-    }
-
-    public void setHealth(int health){
-        this.health = health;
-    }
-
-    public void setWorth(int worth){
-        this.worth = worth;
-    }
-
-    public void setRange(int range){
-        this.range = range;
-    }
-
-    public int getRange()
-    {
-        return range;
-    }
-
-    public void move(){
-        if(!dead) y -= xSpeed;
-        else x -= yDeath;
-    }
-
-    public void setX(int x){
-        this.x = x;
-    }
-    public int getxSpeed()
-    {
-        return xSpeed;
-    }
-
-
-    public int inflictDamage(){
-        return damageInflicting;
-    }
-
-    public void takeDamage(int hitDamage){
-        if(!dead){
-            health = health - hitDamage;
-            if(health <= 0){
-                dead = true; } }
-    }
-
-    public boolean getDead(){
-        return dead;
-    }
-
-    public int getHealth(){
-        return health;
-    }
-
-    public int getWorth(){
-        Random x = new Random();
-        return x.nextInt(10) + worth;
-    }
-
-    public void setBoss(boolean input) {
-        boss = input;
-    }
-
-    public boolean getBoss() {
-        return boss;
-    }
-
-    public int getX() {
+    public Weapons createWeapon(char t, boolean e, boolean o) {
+        Weapons x = new Weapons(t, e, o);
         return x;
     }
 
-    public int getY() {
-        return y;
+    public void addWeapon(char t, boolean e, boolean o) {
+        Inventory.add(createWeapon(t, e, o));
     }
 
+    public Weapons getIndex(int slot) {
+        return Inventory.get(slot);
+    }
+
+    public void Own(Weapons w) {
+        w.ToggleOwned();
+    }
+
+    public void Equip(Weapons w) {
+        w.ToggleEquipped();
+    }
 }
