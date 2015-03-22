@@ -91,6 +91,14 @@ class Manatee {
 	public boolean getBoss() {
 		return boss;
 	}
+		
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
 	
 
 }
