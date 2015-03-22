@@ -1,6 +1,7 @@
 package com.example.dspritzman.myapplication;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class Game {
     WeaponInventory wInventory;
     LevelManager lManager;
     ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
+    int score;
 
     Game(){
         wInventory = new WeaponInventory();
@@ -19,6 +21,7 @@ public class Game {
         wInventory.addWeapon('c', false, false);
         wInventory.addWeapon('d', false, false);
         wInventory.addWeapon('e', false, false);
+        score = 0;
 
         lManager = new LevelManager();
 
@@ -30,6 +33,13 @@ public class Game {
     public void tick()
     {
         lManager.tick();
+        Collision_Detect();
+        updateBullets();
+    }
+
+    public int getScore()
+    {
+        return lManager.getScore();
     }
 
 
@@ -38,6 +48,8 @@ public class Game {
         BulletPhysics physics = new BulletPhysics(xOrigin, yOrigin, xTouch, yTouch);
         Bullet b = new Bullet(xOrigin, yOrigin, physics.getRise(), physics.getRun());
 
+        Bullets.add(b);
+        Log.e("add", "add: " + Bullets.get(0).getX());
     }
 
 
@@ -128,64 +140,101 @@ public class Game {
         return lManager.flyIterator(i);
     }
 
-    public SeaHorse seaIterator(int i)
+    //public SeaHorse seaIterator(int i)
     {
-        return lManager.seaIterator(i);
+        //return lManager.seaIterator(i);
     }
 
-    public double Distance(int x1, int y1, int x2, int y2) {
-        double d = Math.sqrt( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) );
-        return d;
+    private double Distance(int xa, int ya, int xb, int yb)
+    {
+        int x1 = xa;
+        int x2 = xb;
+        int xSqr = (x2 - x1) * (x2 - x1);
+        int y1 = ya;
+        int y2 = yb;
+        int ySqr = (y2 - y1) * (y2 - y1);
+        double distance = Math.sqrt(xSqr + ySqr);
+
+        return distance;
+    }
+
+    public void updateBullets()
+    {
+        for (int i = 0; i < Bullets.size(); ++i)
+        {
+            Bullets.get(i).setX(Bullets.get(i).getX() + Bullets.get(i).getRun());
+            Bullets.get(i).setY(Bullets.get(i).getY() + Bullets.get(i).getRise());
+        }
     }
 
     public void Collision_Detect(){
+
+        //Log.e("manatee", "1: " + Bullets.size() + "2: " );
+
         for(int i = 0; i < Bullets.size() && Bullets.size() != 0; i++) {
-            for (int f = 0; Distance(Bullets.get(f).getX(), Bullets.get(f).getY(), flyIterator(f).getX(), flyIterator(f).getY()) < flyIterator.getRadius; f++)
+
+            boolean stop = false;
+            if (Bullets.get(i).getY() > 1280 || Bullets.get(i).getX() > 720 || Bullets.get(i).getX() < 0)
             {
-                if(Distance(Bullets.get(f).getX(), Bullets.get(f).getY(), flyIterator(f).getX(), flyIterator(f).getY()) < flyIterator.getRadius){
-                    flyIterator(f).takeDamage(50);
-                    Bullets.remove(f);
-                    break;
+                Bullets.remove(i);
+            }
+
+            for (int f = 0; f < getFlyingSize() && getFlyingSize() > 0 && !stop && Bullets.size() > 0; f++)
+            {
+                if (Bullets.get(i) != null && flyIterator(f) != null) {
+                    if (Distance(Bullets.get(i).getX(), Bullets.get(i).getY(), flyIterator(f).getX(), flyIterator(f).getY()) < flyIterator(f).getRadius()) {
+                        flyIterator(f).takeDamage(50);
+                        Bullets.remove(i);
+                        stop = true;
+                    }
                 }
             }
 
-            for (int p = 0; Distance(Bullets.get(p).getX(), Bullets.get(p).getY(), puffIterator(p).getX(), puffIterator(p).getY()) < puffIterator.getRadius; p++)
+
+            for (int p = 0; p < getPuffSize()  && getPuffSize() > 0 && !stop && Bullets.size() > 0; p++)
             {
-                if(Distance(Bullets.get(p).getX(), Bullets.get(p).getY(), puffIterator(p).getX(), puffIterator(p).getY()) < puffIterator.getRadius){
-                    puffIterator(p).takeDamage(50);
-                    Bullets.remove(p);
-                    break;
+                if (Bullets.get(i) != null && puffIterator(p) != null) {
+                    if (Distance(Bullets.get(i).getX(), Bullets.get(i).getY(), puffIterator(p).getX(), puffIterator(p).getY()) < puffIterator(p).getRadius()) {
+                        puffIterator(p).takeDamage(50);
+                        Bullets.remove(i);
+                        stop = true;
+                    }
                 }
             }
+/*
 
-
-            for (int s = 0; Distance(Bullets.get(s).getX(), Bullets.get(s).getY(), seaIterator(s).getX(), seaIterator(s).getY()) < seaIterator.getRadius; s++)
+            for (int s = 0; s < getSeaSize() && getSeaSize() > 0; s++)
             {
-                if(Distance(Bullets.get(s).getX(), Bullets.get(s).getY(), seaIterator(s).getX(), seaIterator(s).getY()) < seaIterator.getRadius){
+                if(Distance(Bullets.get(s).getX(), Bullets.get(s).getY(), seaIterator(s).getX(), seaIterator(s).getY()) < seaIterator(s).getRadius()){
                     seaIterator(s).takeDamage(50);
                     Bullets.remove(s);
                     break;
                 }
-            }
+            }*/
 
-            for (int m = 0; Distance(Bullets.get(m).getX(), Bullets.get(m).getY(), manIterator(m).getX(), manIterator(m).getY()) < manIterator.getRadius; m++)
+            for (int m = 0; m < getManSize() && getManSize() > 0 && !stop && Bullets.size() > 0; m++)
             {
-                if(Distance(Bullets.get(m).getX(), Bullets.get(m).getY(), manIterator(m).getX(), manIterator(m).getY()) < manIterator.getRadius){
-                    manIterator(m).takeDamage(50);
-                    Bullets.remove(m);
-                    break;
+                if (Bullets.get(i) != null && manIterator(m) != null) {
+                    if (Distance(Bullets.get(i).getX(), Bullets.get(i).getY(), manIterator(m).getX(), manIterator(m).getY()) < manIterator(m).getRadius()) {
+                        manIterator(m).takeDamage(50);
+                        Bullets.remove(i);
+                        Log.e("manatee", "hit dat");
+                        stop = true;
+                    }
                 }
             }
 
-            for (int n = 0; Distance(Bullets.get(n).getX(), Bullets.get(n).getY(),narIterator(n).getX(), narIterator(n).getY()) < narIterator.getRadius; n++)
+            for (int n = 0; n < getNarwhalSize() && getNarwhalSize() > 0 && !stop && Bullets.size() > 0; n++)
             {
-                if(Distance(Bullets.get(n).getX(), Bullets.get(n).getY(), narIterator(n).getX(), narIterator(n).getY()) < narIterator.getRadius){
-                    narIterator(n).takeDamage(50);
-                    Bullets.remove(n);
-                    break;
+                if (Bullets.get(i) != null && narIterator(n) != null) {
+                    if (Distance(Bullets.get(i).getX(), Bullets.get(i).getY(), narIterator(n).getX(), narIterator(n).getY()) < narIterator(n).getRadius()) {
+                        narIterator(n).takeDamage(50);
+                        Bullets.remove(i);
+                        stop = true;
+                    }
                 }
             }
-            
+
         }
     }
 
