@@ -1,5 +1,4 @@
-package com.example.shanemcdonald.hackfsu1;
-
+package com.example.dspritzman.myapplication;
 import android.graphics.Bitmap;
 
 /**
@@ -38,5 +37,3 @@ public class Bullet {
     private Bitmap bullet;
     private int bullet_speed;
 }
-
-
